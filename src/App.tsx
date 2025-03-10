@@ -244,7 +244,7 @@ export default function App() {
   return (
     <div className="App">
       <Router>
-        {isVisibleArrow && <img onClick={handleScrollTop} className="arrow-top" src={process.env.PUBLIC_URL + 'react-weather-app-arrow.png'} alt="top arrow"/>}
+        {isVisibleArrow && <img onClick={handleScrollTop} className="arrow-top" src={process.env.PUBLIC_URL + 'arrow.png'} alt="top arrow"/>}
         <Header
           setToggleLocationForm={setToggleLocationForm}
           handleReminder={handleReminder}
