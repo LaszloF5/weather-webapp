@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes, HashRouter } from "react-router-dom";
 import Header from "./Components/Header";
 import LocationForm from "./Components/LocationForm";
 import WeeklyForecast from "./Components/WeeklyForecast";
@@ -243,8 +243,8 @@ export default function App() {
 
   return (
     <div className="App">
-      <Router>
-        {isVisibleArrow && <img onClick={handleScrollTop} className="arrow-top" src={process.env.PUBLIC_URL + 'arrow.png'} alt="top arrow"/>}
+      <HashRouter>
+        {isVisibleArrow && <img onClick={handleScrollTop} className="arrow-top" src={process.env.PUBLIC_URL + '/react-weather-app-arrow.png'} alt="top arrow"/>}
         <Header
           setToggleLocationForm={setToggleLocationForm}
           handleReminder={handleReminder}
@@ -254,7 +254,6 @@ export default function App() {
             path="/"
             element={
               <div className="homePage">
-                {/* <h1>Weather app</h1> */}
                 {toggleLocationForm ? (
                   ""
                 ) : (
@@ -411,7 +410,7 @@ export default function App() {
             }
           />
         </Routes>
-      </Router>
+      </HashRouter>
     </div>
   );
 }
