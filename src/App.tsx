@@ -71,6 +71,9 @@ interface Units {
 
 export default function App() {
 
+  let selectedTimeZone: string = '';
+  const [currentTimeZone, setCurrentTimeZone] = useState<string>('');
+
  const [isVisibleArrow, setIsVisibleArrow] = useState<boolean>(false);
 
  useEffect(() => {
@@ -184,10 +187,11 @@ export default function App() {
 
   const currentCity = async (
     latitude: number,
-    longitude: number
+    longitude: number,
+    selectedTimeZone: string
   ): Promise<void> => {
     const response = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,is_day,precipitation,cloud_cover,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,precipitation_probability,precipitation,cloud_cover,visibility,wind_speed_10m,wind_direction_10m,wind_gusts_10m,soil_temperature_0cm,soil_moisture_0_to_1cm&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_sum&timezone=Europe%2FBerlin`
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,is_day,precipitation,cloud_cover,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,precipitation_probability,precipitation,cloud_cover,visibility,wind_speed_10m,wind_direction_10m,wind_gusts_10m,soil_temperature_0cm,soil_moisture_0_to_1cm&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_sum&timezone=${encodeURIComponent(selectedTimeZone)}`
     );
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -205,7 +209,6 @@ export default function App() {
       temperature24h.push(data.hourly.temperature_2m[i].toString());
       precipitation24h.push(data.hourly.precipitation[i].toString());
     }
-
     setCurrentData(data.current);
     setWeeklyData(data.daily);
     setHourlyData(data.hourly);
@@ -233,9 +236,11 @@ export default function App() {
       const data = await response.json();
       const latitude = data.results[0].latitude;
       const longitude = data.results[0].longitude;
+      selectedTimeZone = data.results[0].timezone;
+      setCurrentTimeZone(data.results[0].timezone);
       let upperCity: string = city.charAt(0).toUpperCase() + city.slice(1);
       setRenderCity(upperCity);
-      currentCity(latitude, longitude);
+      currentCity(latitude, longitude, selectedTimeZone);
     } catch (error) {
       console.error("Error fetching city data:", error);
     }
@@ -288,6 +293,9 @@ export default function App() {
                         </li>
                         <li className="currentData-ul_li">
                           Precipitation: {currentData.precipitation} mm
+                        </li>
+                        <li className="currentData-ul_li">
+                          Time zone: {currentTimeZone}
                         </li>
                       </ul>
                       <button className="chart-button" onClick={handleChart}>

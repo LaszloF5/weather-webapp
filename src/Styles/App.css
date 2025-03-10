@@ -1,3 +1,10 @@
+/*timezone*/
+
+.css-1xc3v61-indicatorContainer, .css-1u9des2-indicatorSeparator {
+  display: none;
+  opacity: 0;
+}
+
 .App {
   text-align: center;
 }

@@ -14,7 +14,6 @@ export default function LocationForm({ updateCity, setToggleLocationForm }: Loca
         e.preventDefault();
         setCity(temp);
         updateCity(temp)
-        console.log('Current city: ', temp);
         setTemp('');
         setToggleLocationForm(true);
     }
